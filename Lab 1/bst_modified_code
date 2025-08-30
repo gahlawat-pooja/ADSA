@@ -15,9 +15,9 @@ class BST:
     def _insert(self, node, key):
         if not node:
             return Node(key)
-        if key < node.key: #Corrected to '<'
+        if key < node.key:           #Corrected to '<'
             node.left = self._insert(node.left, key)
-        elif key > node.key: #Corrected to '>'
+        elif key > node.key:         #Corrected to '>'
             node.right = self._insert(node.right, key)
         return node
 
@@ -28,17 +28,17 @@ class BST:
         if not node:
             return node
         if key < node.key:
-            node.left = self._delete(node.left, key) #earlier it was wrongly calling right subtree for left
+            node.left = self._delete(node.left, key)    #earlier it was wrongly calling right subtree for left
         elif key > node.key:
-            node.right = self._delete(node.right, key) #earlier it was wrongly calling left subtree for right
+            node.right = self._delete(node.right, key)    #earlier it was wrongly calling left subtree for right
         else:
-            if not node.left: # Corrected to check left child first
+            if not node.left:     # Corrected to check left child first
                 return node.right
-            elif not node.right: # Corrected to check right child second
+            elif not node.right:    # Corrected to check right child second
                 return node.left
-            temp = self._minValueNode(node.right) # Corrected to find min in right subtree
+            temp = self._minValueNode(node.right)     # Corrected to find min in right subtree
             node.key = temp.key
-            node.right = self._delete(node.right, temp.key) # must delete from right subtree
+            node.right = self._delete(node.right, temp.key)    # must delete from right subtree
         return node
 
     def _minValueNode(self, node):
@@ -53,16 +53,16 @@ class BST:
     def _leftRotate(self, node, key):
         if not node:
             return None
-        if key > node.key:
-            node.right = self._leftRotate(node.right, key)
-        elif key < node.key:
+        if key < node.key:   # Rotate left subtree if key is less than node's key 
             node.left = self._leftRotate(node.left, key)
+        elif key > node.key:  # Rotate right subtree if key is greater than node's key
+            node.right = self._leftRotate(node.right, key)
         else:
-            if not node.left:
+            if not node.right:
                 return node
-            new_root = node.left
-            node.left = new_root.right
-            new_root.right = node
+            new_root = node.right
+            node.right = new_root.left
+            new_root.left = node
             return new_root
         return node
 
@@ -73,15 +73,15 @@ class BST:
         if not node:
             return None
         if key < node.key:
-            node.right = self._rightRotate(node.left, key)
+            node.left = self._rightRotate(node.left, key)
         elif key > node.key:
-            node.left = self._rightRotate(node.right, key)
+            node.right = self._rightRotate(node.right, key)
         else:
-            if not node.right:
+            if not node.left:
                 return node
-            new_root = node.right
-            node.right = new_root.left
-            new_root.left = node
+            new_root = node.left
+            node.left = new_root.right
+            new_root.right = node
             return new_root
         return node
 
